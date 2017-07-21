@@ -13,9 +13,6 @@ import android.util.Log;
 
 public class SwipeRefresh extends TiUIView {
 
-	private MySwipeRefreshLayout layout;
-	private TiViewProxy view;
-
 	public static final String PROPERTY_VIEW = "view";
 	public static final String PROPERTY_COLOR_SCHEME = "colorScheme";
 	private static final String TAG = "SwipeRefresh";
@@ -42,7 +39,8 @@ public class SwipeRefresh extends TiUIView {
 		}
 
 		LayoutInflater inflater = LayoutInflater.from(TiApplication.getInstance());
-		layout = (MySwipeRefreshLayout) inflater.inflate(layout_swipe_refresh, null, false);
+		MySwipeRefreshLayout layout =
+				(MySwipeRefreshLayout) inflater.inflate(layout_swipe_refresh, null, false);
 
 		layout.setOnRefreshListener(new OnRefreshListener() {
 			@Override
@@ -61,21 +59,42 @@ public class SwipeRefresh extends TiUIView {
 		if (d.containsKey(PROPERTY_VIEW)) {
 			Object view = d.get(PROPERTY_VIEW);
 			if (view != null && view instanceof TiViewProxy) {
-				this.view = (TiViewProxy) view;
-				this.layout.setNativeView(this.view.getOrCreateView().getNativeView());
-				this.layout.addView(this.view.getOrCreateView().getOuterView());
-				this.layout.setColorSchemeColors(color1, color2, color3, color4);
+				TiViewProxy proxy = (TiViewProxy) view;
+				MySwipeRefreshLayout layout = (MySwipeRefreshLayout) getNativeView();
+				layout.setNativeView(proxy.getOrCreateView().getNativeView());
+				layout.addView(proxy.getOrCreateView().getOuterView());
+				layout.setColorSchemeColors(color1, color2, color3, color4);
 			}
 		}
 		super.processProperties(d);
 	}
 
 	public boolean isRefreshing() {
-		return this.layout.isRefreshing();
+		MySwipeRefreshLayout layout = (MySwipeRefreshLayout) getNativeView();
+		if (layout != null) {
+			return layout.isRefreshing();
+		}
+		return false;
 	}
 
 	public void setRefreshing(boolean refreshing) {
-		this.layout.setRefreshing(refreshing);
+		MySwipeRefreshLayout layout = (MySwipeRefreshLayout) getNativeView();
+		if (layout != null) {
+			layout.setRefreshing(refreshing);
+		}
+	}
+
+	@Override
+	public void release() {
+		Log.d(TAG, "release");
+		MySwipeRefreshLayout layout = (MySwipeRefreshLayout) getNativeView();
+		if (layout != null) {
+			layout.removeAllViews();
+			layout.setRefreshing(false);
+			layout.setOnRefreshListener(null);
+		}
+		super.release();
+		proxy = null;
 	}
 
 }

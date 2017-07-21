@@ -13,9 +13,9 @@ import android.os.Message;
 @Kroll.proxy(creatableInModule=SwiperefreshlayoutModule.class)
 public class SwipeRefreshProxy extends TiViewProxy implements Handler.Callback {
 
-	private SwipeRefresh swipeRefresh;
-
 	protected static final int MSG_SET_REFRESHING = KrollProxy.MSG_LAST_ID + 101;
+
+	private static final String TAG = "SwipeRefreshProxy";
 
 	public SwipeRefreshProxy() {
 		super();
@@ -23,8 +23,7 @@ public class SwipeRefreshProxy extends TiViewProxy implements Handler.Callback {
 
 	@Override
 	public TiUIView createView(Activity activity) {
-		swipeRefresh = new SwipeRefresh(this);
-		return this.swipeRefresh;
+		return new SwipeRefresh(this);
 	}
     
 	/* Public API */
@@ -42,7 +41,11 @@ public class SwipeRefreshProxy extends TiViewProxy implements Handler.Callback {
     
 	@Kroll.method @Kroll.getProperty
 	public boolean isRefreshing() {
-		return this.swipeRefresh.isRefreshing();
+		SwipeRefresh v = (SwipeRefresh) peekView();
+		if (v != null) {
+			return v.isRefreshing();
+		}
+		return false;
 	}
     
 	/* Utilities */
@@ -59,6 +62,9 @@ public class SwipeRefreshProxy extends TiViewProxy implements Handler.Callback {
 	}
 	
 	protected void doSetRefreshing(boolean refreshing) {
-		this.swipeRefresh.setRefreshing(refreshing);
+		SwipeRefresh v = (SwipeRefresh) peekView();
+		if (v != null) {
+			v.setRefreshing(refreshing);
+		}
 	}
 }
