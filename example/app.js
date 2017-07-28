@@ -53,9 +53,8 @@ var listView = Ti.UI.createListView({
 });
 
 var swipeRefreshModule = require('com.rkam.swiperefreshlayout');
-var swipeRefresh = swipeRefreshModule.createSwipeRefresh({
-    view: listView
-});
+var swipeRefresh = swipeRefreshModule.createSwipeRefresh();
+swipeRefresh.add(listView)
 
 var fakeData = [
    {from: "User 1", message:"Hello there"},

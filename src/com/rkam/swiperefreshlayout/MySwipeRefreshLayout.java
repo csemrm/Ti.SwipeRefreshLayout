@@ -46,6 +46,9 @@ public class MySwipeRefreshLayout extends SwipeRefreshLayout {
 		} else {
 			nativeChildView = nativeView;
 		}
+		if (nativeChildView == null) {
+			return false;
+		}
         if (android.os.Build.VERSION.SDK_INT < 14) {
             if (nativeChildView instanceof AbsListView) {
                 final AbsListView absListView = (AbsListView) nativeChildView;

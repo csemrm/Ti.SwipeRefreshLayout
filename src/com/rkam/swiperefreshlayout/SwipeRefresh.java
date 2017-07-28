@@ -1,8 +1,6 @@
 package com.rkam.swiperefreshlayout;
 
-import org.appcelerator.kroll.KrollDict;
 import org.appcelerator.titanium.TiApplication;
-import org.appcelerator.titanium.proxy.TiViewProxy;
 import org.appcelerator.titanium.view.TiUIView;
 import org.appcelerator.titanium.util.TiRHelper;
 import org.appcelerator.titanium.util.TiRHelper.ResourceNotFoundException;
@@ -55,18 +53,12 @@ public class SwipeRefresh extends TiUIView {
 	}
 
 	@Override
-	public void processProperties(KrollDict d) {
-		if (d.containsKey(PROPERTY_VIEW)) {
-			Object view = d.get(PROPERTY_VIEW);
-			if (view != null && view instanceof TiViewProxy) {
-				TiViewProxy proxy = (TiViewProxy) view;
-				MySwipeRefreshLayout layout = (MySwipeRefreshLayout) getNativeView();
-				layout.setNativeView(proxy.getOrCreateView().getNativeView());
-				layout.addView(proxy.getOrCreateView().getOuterView());
-				layout.setColorSchemeColors(color1, color2, color3, color4);
-			}
-		}
-		super.processProperties(d);
+	public void add(TiUIView child)
+	{
+		MySwipeRefreshLayout layout = (MySwipeRefreshLayout) getNativeView();
+		layout.setNativeView(child.getNativeView());
+		super.add(child);
+		layout.setColorSchemeColors(color1, color2, color3, color4);
 	}
 
 	public boolean isRefreshing() {
