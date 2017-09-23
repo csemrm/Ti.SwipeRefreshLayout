@@ -5,3 +5,5 @@ bin
 /libs
 *.zip
 .apt_generated
+.settings
+.DS_Store
