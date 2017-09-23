@@ -1,0 +1,22 @@
+%define lookup-function-name lookupGeneratedInit
+%define class-name SwiperefreshlayoutBindings
+%{
+
+#include <string.h>
+#include <v8.h>
+#include <KrollBindings.h>
+
+#include "com.rkam.swiperefreshlayout.SwiperefreshlayoutModule.h"
+#include "com.rkam.swiperefreshlayout.SwipeRefreshProxy.h"
+
+
+namespace titanium {
+namespace bindings {
+%}
+struct BindEntry;
+%%
+com.rkam.swiperefreshlayout.SwipeRefreshProxy,::com::rkam::swiperefreshlayout::swiperefreshlayout::SwipeRefreshProxy::bindProxy,::com::rkam::swiperefreshlayout::swiperefreshlayout::SwipeRefreshProxy::dispose
+com.rkam.swiperefreshlayout.SwiperefreshlayoutModule,::com::rkam::swiperefreshlayout::SwiperefreshlayoutModule::bindProxy,::com::rkam::swiperefreshlayout::SwiperefreshlayoutModule::dispose
+%%
+}
+}
