@@ -1,9 +1,1 @@
-tmp
-bin
-/build
-/dist
-/libs
-*.zip
-.apt_generated
-.settings
-.DS_Store
+android/build
